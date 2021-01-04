@@ -2,25 +2,50 @@
 
 {% block title article.title %}
 {% block body %}
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-8">
-            
-        </div>
-        <div class="col-md-4">
-            <h1>{{ article.title }}</h1>
-            <h2>{{ article.auteur }} - Origine : {{ article.origine }}</h2>
-            <div class="text-primary" style="font-size: 4rem; font-weight: bold">
-                {{ article.prix }} €
+<div class="bg-light">
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+
             </div>
-            <a href="#" class="btn vtn-primary">Nous contacter</a>
+            <div class="col-md-4">
+                <h1>{{ article.title }}</h1>
+                <h2>{{ article.auteur }} - Origine : {{ article.origine }}</h2>
+                <div class="text-primary" style="font-size: 4rem; font-weight: bold">
+                    {{ article.prix }} €
+                </div>
+                <a href="#" class="btn vtn-primary">Nous contacter</a>
+            </div>
         </div>
     </div>
-
-    <nav class="nav nav-tabs mb-4" id="tab"></nav>
-    <p>{{ article.description | nl2br }}</p>
-    
 </div>
+
+    <div class="container mt-4">
+
+        <p>
+            {{ article.description | nl2br }}
+        </p>
+
+        <div class="row">
+            <div class="col-md-8">
+                <h2>Caractéristiques</h2>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Taille</td>
+                        <td>{{ article.taille }} mm</td>
+                    </tr>
+                    <tr>
+                        <td>Poids</td>
+                        <td>{{ article.poids }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <h2>Autres</h2>
+            </div>
+        </div>
+
+
 {% endblock %}
 
 
