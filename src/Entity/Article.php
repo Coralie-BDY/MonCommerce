@@ -5,9 +5,12 @@ namespace App\Entity;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @UniqueEntity("titre")
  */
 class Article
 {
@@ -19,9 +22,10 @@ class Article
     private $id;
 
     /**
+     * @Assert\Length(min=5, max=255)
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private $titre;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -56,12 +60,22 @@ class Article
     /**
      * @ORM\Column(type="boolean", options={"default" : false})
      */
-    private $sold = false;
+    private $vendu = false;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $created_at;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $categorie;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $quantite;
 
     public function  __construct()
     {
@@ -73,14 +87,14 @@ class Article
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitre(): ?string
     {
-        return $this->title;
+        return $this->titre;
     }
 
-    public function setTitle(string $title): self
+    public function setTitre(string $titre): self
     {
-        $this->title = $title;
+        $this->titre = $titre;
 
         return $this;
     }
@@ -161,14 +175,14 @@ class Article
         return $this;
     }
 
-    public function getSold(): ?bool
+    public function getVendu(): ?bool
     {
-        return $this->sold;
+        return $this->vendu;
     }
 
-    public function setSold(bool $sold): self
+    public function setVendu(bool $vendu): self
     {
-        $this->sold = $sold;
+        $this->vendu = $vendu;
 
         return $this;
     }
@@ -181,6 +195,30 @@ class Article
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?string
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(string $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(?int $quantite): self
+    {
+        $this->quantite = $quantite;
 
         return $this;
     }
