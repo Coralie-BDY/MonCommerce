@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\ArticleSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
@@ -26,10 +27,24 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * @return Query
      */
-    public function findAllVisibleQuery() : Query
+    public function findAllVisibleQuery(ArticleSearch $search) : Query
     {
-        return $this->findVisibleQuery()
-            ->getQuery();
+        $query = $this->findVisibleQuery();
+
+        if ($search->getMaxPrice())
+        {
+            $query = $query
+                ->andWhere('a.prix <= :maxprice')
+                ->setParameter('maxprice', $search->getMaxPrice());
+        }
+        if ($search->getMinTaille())
+        {
+            $query = $query
+                ->andWhere('a.taille >= :mintaille')
+                ->setParameter('mintaille', $search->getMinTaille());
+        }
+
+        return $query ->getQuery();
 
     }
 

@@ -3,8 +3,25 @@
 {% block title 'TOUS NOS ARTICLES' %}
 
 {% block body %}
+    <div class="bg-light pt-5 pb-5">
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.maxPrice) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.minTaille) }}
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary">Rechercher</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
     <div class="container mt-4">
-        <h1>Voir tous nos articles</h1>
+        <h1>Tous nos articles</h1>
 
         <div class="row">
             {% for article in articles %}

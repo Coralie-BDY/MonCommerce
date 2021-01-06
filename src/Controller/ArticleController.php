@@ -3,6 +3,8 @@ namespace App\Controller;
 
 
 use App\Entity\Article;
+use App\Entity\ArticleSearch;
+use App\Form\ArticleSearchType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -34,13 +36,18 @@ class ArticleController extends AbstractController
      */
     public function index(PaginatorInterface $paginator, Request $request) : Response
     {
+        $search = new ArticleSearch();
+        $form = $this->createForm(ArticleSearchType::class, $search);
+        $form->handleRequest($request);
+
         $articles = $paginator->paginate(
-            $this->repository->findAllVisibleQuery(),
+            $this->repository->findAllVisibleQuery($search),
             $request->query->getInt('page', 1), 12
         );
         return $this->render('article/index.html.twig', [
             'current_menu' =>'articles',
-            'articles' => $articles
+            'articles' => $articles,
+            'form' => $form->createView()
         ]);
     }
 
