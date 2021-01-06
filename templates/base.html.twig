@@ -22,6 +22,14 @@
                         <a class="nav-link" href="{{ path('article_index') }}">Articles</a>
                     </li>
                 </ul>
+                {% if app.user %}
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="{{ path('logout') }}" class="nav-link">
+                                Déconnexion
+                            </a></li>
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </nav>

@@ -100,7 +100,7 @@ class Article
     }
     public function getSlug() : string
     {
-        return(new Slugify())->slugify($this->title);
+        return(new Slugify())->slugify($this->titre);
     }
 
     public function getDescription(): ?string

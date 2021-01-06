@@ -44,7 +44,7 @@ class ArticleRepository extends ServiceEntityRepository
     private function findVisibleQuery() : QueryBuilder
     {
         return $this->createQueryBuilder('a')
-            ->where('a.sold = false');
+            ->where('a.vendu = false');
 
     }
     // /**
