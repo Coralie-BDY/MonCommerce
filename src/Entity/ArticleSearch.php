@@ -4,6 +4,8 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class ArticleSearch
 {
     /**
@@ -11,6 +13,20 @@ class ArticleSearch
      */
    private $maxPrice;
 
+    /**
+     * @var int|null
+     */
+    private $minTaille;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $options;
+
+    public function __construct()
+    {
+        $this->options = new ArrayCollection();
+    }
     /**
      * @return int|null
      */
@@ -50,9 +66,25 @@ class ArticleSearch
     }
 
     /**
-     * @var int|null
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-   private $minTaille;
+    public function getOptions(): ArrayCollection
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $options
+     *
+     * @return ArticleSearch
+     */
+    public function setOptions(ArrayCollection $options): ArticleSearch
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+
 
 
 }

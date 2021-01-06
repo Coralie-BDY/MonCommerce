@@ -44,6 +44,20 @@ class ArticleRepository extends ServiceEntityRepository
                 ->setParameter('mintaille', $search->getMinTaille());
         }
 
+        if ($search->getOptions()->count() > 0)
+        {
+            $k = 0;
+
+            foreach ($search->getOptions() as $option)
+            {
+                $k++;
+
+                $query = $query
+                ->andWhere(":option$k MEMBER OF a.options")
+                ->setParameter("option$k", $option);
+            }
+        }
+
         return $query ->getQuery();
 
     }
