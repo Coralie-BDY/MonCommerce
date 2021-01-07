@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\ArticleSearch;
+use App\Entity\Contact;
 use App\Form\ArticleSearchType;
+use App\Form\ContactType;
+use App\Notification\ContactNotification;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -20,7 +23,7 @@ class ArticleController extends AbstractController
      */
     private $repository;
     /**
-     * @var \EntityManager
+     * @var EntityManagerInterface
      */
     private $manager;
 
@@ -53,10 +56,15 @@ class ArticleController extends AbstractController
 
     /**
      * @Route ("/articles/{slug}-{id}", name="article_show", requirements={"slug" : "[a-z0-9\-]*"})
+     * @param \App\Entity\Article                       $article
+     * @param string                                    $slug
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Notification\ContactNotification     $notification
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
-    public function show(Article $article, string $slug) : Response
+    public function show(Article $article, string $slug, Request $request, ContactNotification $notification) : Response
     {
         if ($article->getSlug() !== $slug)
         {
@@ -65,9 +73,25 @@ class ArticleController extends AbstractController
                 'slug' => $article->getSlug()
             ], 301);
         }
+        $contact = new Contact();
+        $contact->setArticle($article);
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $notification->notify($contact);
+            $this->addFlash('success', 'Votre email est parti');
+            return $this->redirectToRoute('article_show', [
+                'id' => $article->getId(),
+                'slug' => $article->getSlug()
+            ]);
+        }
+
         return $this->render('article/show.html.twig', [
             'article' => $article,
-            'current_menu' =>'articles'
+            'current_menu' =>'articles',
+            'form' => $form->createView()
         ]);
     }
 }

@@ -5,6 +5,9 @@
 {% block body %}
 <div class="bg-light">
     <div class="container mt-4">
+        {% for message in app.flashes ('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
         <div class="row">
             <div class="col-md-8">
                 {% if article.filename %}
@@ -24,7 +27,23 @@
                 <div class="text-primary" style="font-size: 4rem; font-weight: bold">
                     {{ article.prix }} €
                 </div>
-                <a href="#" class="btn vtn-primary">Nous contacter</a>
+                <a href="#" class="btn btn-primary">Nous contacter</a>
+                <div id="contactForm" class="mt-4">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col">{{ form_row(form.firstname) }}</div>
+                        <div class="col">{{ form_row(form.lastname) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.phone) }}</div>
+                        <div class="col">{{ form_row(form.email) }}</div>
+                    </div>
+                    {{ form_rest(form) }}
+                    <div class="input-group mt-4">
+                        <button class="btn btn-primary"> Envoyer </button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
     </div>
