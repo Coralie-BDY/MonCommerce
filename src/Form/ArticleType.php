@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Option;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,8 +25,12 @@ class ArticleType extends AbstractType
             ->add('vendu')
             ->add('categorie')
             ->add('quantite')
+            ->add('imageFile', FileType::class, [
+                'required' => false
+            ])
             ->add('options',EntityType::class, [
                 'class' => Option::class,
+                'required' => false,
                 'choice_label' => 'name',
                 'multiple' => true
             ] )
